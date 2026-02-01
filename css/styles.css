@@ -900,3 +900,203 @@ textarea{ resize: vertical; min-height: 120px; }
     max-height: 340px;
   }
 }
+/* =========================================
+   OVERRIDES PATCH — spacing + images + CTAs
+   Paste at bottom of css/styles.css
+========================================= */
+
+/* 1) SOURCES/RESOURCES — only on Home */
+body:not(.page-home) .sources,
+body:not(.page-home) section:has(.sources) {
+  display: none;
+}
+
+/* If :has() is not supported in your browser target, the first rule still hides the list.
+   The :has() rule hides the whole section wrapper if your Sources section is a <section>. */
+
+/* 2) PAGE HERO / HEADLINE SPACING — tighten “too much space” */
+.hero,
+.page-hero {
+  padding: clamp(1.6rem, 2.6vw, 3.0rem) 0 !important;
+}
+
+.hero-grid,
+.page-hero-grid {
+  align-items: center;
+}
+
+.hero .mini-disclaimer,
+.page-hero .mini-disclaimer {
+  margin-top: var(--s-3);
+}
+
+.hero .lead,
+.page-hero .lead {
+  margin-bottom: var(--s-3);
+}
+
+.section-head {
+  margin-bottom: var(--s-4);
+}
+
+/* Slightly stronger page headings without feeling huge */
+.page-hero h1,
+.hero h1 {
+  letter-spacing: -0.03em;
+}
+
+/* 3) HERO / PORTRAIT FIGURES — reduce letterbox + stronger presence */
+.hero-figure,
+.page-hero-figure,
+.split-figure {
+  max-height: 520px; /* was 420 */
+}
+
+@media (max-width: 960px){
+  .hero-figure,
+  .page-hero-figure,
+  .split-figure { max-height: 420px; }
+}
+@media (max-width: 820px){
+  .hero-figure,
+  .page-hero-figure,
+  .split-figure { max-height: 360px; }
+}
+
+/* 4) LEANNLONNIE — bigger vertically in the Family & community split
+   Best: add class img-pos-taller to that <img>.
+   Fallback: target the filename. */
+.img-pos-taller,
+img[src*="leannlonnie.jpg"] {
+  object-position: center 20% !important;
+}
+
+/* If that image sits in a landscape frame and you want it taller,
+   make that specific figure portrait-ish without changing global rules. */
+.page-about .split-figure,
+.page-about .soft-figure {
+  /* keep consistent but slightly taller on About page sections */
+  max-height: 460px;
+}
+
+/* 5) GOLDENLONNIE — make “Community partnership” less zoomed
+   Best: add class img-pos-natural to the <img>.
+   Fallback: target filename. */
+.img-pos-natural,
+img[src*="goldenlonnie.jpg"] {
+  object-position: center 45% !important; /* lowers crop so face isn’t huge */
+}
+
+/* If it still feels too “in your face”, slightly reduce visual dominance on Issues page */
+.page-issues img[src*="goldenlonnie.jpg"] {
+  transform: scale(0.98);
+}
+
+/* 6) PRIORITY “bubble” — make it a clean tag (fix Backing the Blue)
+   You likely have .issue-tag or a badge-like element in issues cards.
+   This makes it consistent and not like a weird empty bubble. */
+.issue-tag,
+.issue .badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .28rem .6rem;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: .78rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+/* If you have an empty circular “Priority” bubble somewhere, this neutralizes it */
+.issue .issue-tag:empty,
+.issue .badge:empty {
+  display: none;
+}
+
+/* If the “Priority” appears as a standalone pill above Backing the Blue text,
+   give it a better look */
+.issue-tag {
+  border: 1px solid rgba(29,59,209,0.22);
+  background: rgba(29,59,209,0.08);
+  color: rgba(11,18,32,0.82);
+}
+
+/* 7) ISSUES PAGE — bottom floating CTAs (“Volunteer/Yard Sign” + “Donate”)
+   These often look like random blobs if they’re position:fixed.
+   This styles ANY fixed “btn” stack to look intentional without HTML changes. */
+.page-issues .btn {
+  font-weight: 820;
+}
+
+/* If your fixed buttons are wrapped in a container (common), make it nicer */
+.page-issues .floating-cta,
+.page-issues .sticky-cta,
+.page-issues .cta-float {
+  position: fixed;
+  left: 18px;
+  bottom: 18px;
+  display: flex;
+  gap: 10px;
+  z-index: 50;
+  padding: 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.88);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(10px);
+}
+
+/* If there is NO wrapper and buttons are fixed individually,
+   this still improves their readability and feel */
+.page-issues a.btn,
+.page-issues button.btn {
+  box-shadow: 0 14px 32px rgba(11,18,32,0.14);
+}
+
+/* Mobile: prevent fixed CTAs from covering content */
+@media (max-width: 820px){
+  .page-issues .floating-cta,
+  .page-issues .sticky-cta,
+  .page-issues .cta-float {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    justify-content: space-between;
+  }
+  .page-issues .floating-cta .btn,
+  .page-issues .sticky-cta .btn,
+  .page-issues .cta-float .btn {
+    flex: 1;
+  }
+}
+
+/* 8) GET INVOLVED — “Join Team Sims” / form submit buttons look better */
+.page-get-involved .btn,
+.page-get-involved button[type="submit"] {
+  padding: .82rem 1.15rem;
+  border-radius: 999px;
+  font-weight: 860;
+}
+
+/* Make submit buttons feel less “flat” */
+.page-get-involved button[type="submit"]{
+  border-color: rgba(11,18,32,0.10);
+  box-shadow: 0 14px 34px rgba(11,18,32,0.14);
+}
+
+/* 9) Make “Sources” links always readable when they DO show (home only) */
+.page-home .sources {
+  color: rgba(11,18,32,0.90);
+}
+.page-home .sources a {
+  color: var(--blue);
+}
+.page-home .sources a:hover {
+  color: rgba(29,59,209,0.82);
+}
+
+/* 10) Reduce “big empty gaps” under hero blocks on interior pages */
+.page-hero + .section {
+  padding-top: clamp(1.6rem, 3vw, 2.6rem);
+}
