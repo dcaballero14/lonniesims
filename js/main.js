@@ -1,155 +1,167 @@
-// === js/main.js ===
+/* =====================================================
+   main.js – UI behavior only (no backend submission)
+   ===================================================== */
 
 (() => {
   "use strict";
 
-  const $ = (sel, root = document) => root.querySelector(sel);
-  const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+  /* -------------------------
+     Helpers
+  ------------------------- */
+  const $ = (sel, ctx = document) => ctx.querySelector(sel);
+  const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
 
-  // ---- 1) Mobile nav toggle
+  /* -------------------------
+     Mobile Navigation
+  ------------------------- */
   const navToggle = $(".nav-toggle");
   const navMenu = $("#nav-menu");
 
-  const closeMenu = () => {
-    if (!navToggle || !navMenu) return;
-    navMenu.classList.remove("is-open");
-    navToggle.setAttribute("aria-expanded", "false");
-  };
-
-  const openMenu = () => {
-    if (!navToggle || !navMenu) return;
+  function openNav() {
+    if (!navMenu || !navToggle) return;
     navMenu.classList.add("is-open");
     navToggle.setAttribute("aria-expanded", "true");
-  };
+  }
+
+  function closeNav() {
+    if (!navMenu || !navToggle) return;
+    navMenu.classList.remove("is-open");
+    navToggle.setAttribute("aria-expanded", "false");
+  }
 
   if (navToggle && navMenu) {
     navToggle.addEventListener("click", () => {
       const expanded = navToggle.getAttribute("aria-expanded") === "true";
-      expanded ? closeMenu() : openMenu();
+      expanded ? closeNav() : openNav();
     });
 
-    // Close menu on outside click (mobile)
+    // Close on link click (mobile)
+    $$("#nav-menu a").forEach(link => {
+      link.addEventListener("click", closeNav);
+    });
+
+    // Close on outside click
     document.addEventListener("click", (e) => {
-      const target = e.target;
-      if (!target) return;
-      const clickedInsideNav = navMenu.contains(target) || navToggle.contains(target);
-      if (!clickedInsideNav) closeMenu();
+      if (!navMenu.contains(e.target) && !navToggle.contains(e.target)) {
+        closeNav();
+      }
     });
 
-    // Close on Esc
+    // Close on ESC
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") closeMenu();
-    });
-
-    // Close after clicking a link (mobile)
-    $$("#nav-menu a").forEach((a) => {
-      a.addEventListener("click", () => closeMenu());
+      if (e.key === "Escape") closeNav();
     });
   }
 
-  // ---- 2) Last updated stamp
-  const stamps = $$("[data-last-updated]");
-  if (stamps.length) {
-    const now = new Date();
-    const formatted = now.toLocaleString(undefined, {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "numeric",
-      minute: "2-digit"
-    });
-    stamps.forEach((el) => (el.textContent = formatted));
-  }
+  /* -------------------------
+     Smooth Scroll (anchors only)
+  ------------------------- */
+  $$('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener("click", (e) => {
+      const target = $(anchor.getAttribute("href"));
+      if (!target) return;
 
-  // ---- 3) Privacy / Terms modal open/close
+      e.preventDefault();
+      target.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    });
+  });
+
+  /* -------------------------
+     Privacy / Terms Modals
+  ------------------------- */
   const privacyModal = $("#privacy-modal");
   const termsModal = $("#terms-modal");
 
-  const openDialog = (dlg) => {
-    if (!dlg) return;
-    if (typeof dlg.showModal === "function") dlg.showModal();
-  };
+  function openModal(modal) {
+    if (modal && typeof modal.showModal === "function") {
+      modal.showModal();
+    }
+  }
 
-  const closeDialog = (dlg) => {
-    if (!dlg) return;
-    if (typeof dlg.close === "function") dlg.close();
-  };
+  function closeModal(modal) {
+    if (modal && typeof modal.close === "function") {
+      modal.close();
+    }
+  }
 
-  $$("[data-open]").forEach((btn) => {
+  $$("[data-open]").forEach(btn => {
     btn.addEventListener("click", (e) => {
       e.preventDefault();
-      const which = btn.getAttribute("data-open");
-      if (which === "privacy") openDialog(privacyModal);
-      if (which === "terms") openDialog(termsModal);
-      closeMenu(); // if nav is open on mobile
+      const target = btn.getAttribute("data-open");
+      if (target === "privacy") openModal(privacyModal);
+      if (target === "terms") openModal(termsModal);
+      closeNav();
     });
   });
 
-  // Close buttons inside dialogs
-  $$("[data-close]").forEach((btn) => {
+  $$("[data-close]").forEach(btn => {
     btn.addEventListener("click", () => {
-      // find nearest dialog
-      const dlg = btn.closest("dialog");
-      closeDialog(dlg);
+      const modal = btn.closest("dialog");
+      closeModal(modal);
     });
   });
 
-  // Click outside modal content closes dialog (native dialog only closes via ::backdrop click in some browsers, so implement)
-  [privacyModal, termsModal].forEach((dlg) => {
-    if (!dlg) return;
-    dlg.addEventListener("click", (e) => {
-      const rect = dlg.getBoundingClientRect();
-      const clickedInDialog =
+  // Click outside modal content closes dialog
+  [privacyModal, termsModal].forEach(modal => {
+    if (!modal) return;
+    modal.addEventListener("click", (e) => {
+      const rect = modal.getBoundingClientRect();
+      const inside =
         e.clientX >= rect.left &&
         e.clientX <= rect.right &&
         e.clientY >= rect.top &&
         e.clientY <= rect.bottom;
 
-      // If user clicks the backdrop area (outside the dialog content box), close
-      if (!clickedInDialog) closeDialog(dlg);
+      if (!inside) closeModal(modal);
     });
   });
 
-  // ---- 4) Lightweight form UX (client-side only; no submission)
-  const wireForm = (form) => {
+  /* -------------------------
+     Form Validation (UI only)
+  ------------------------- */
+  function wireForm(form) {
     form.addEventListener("submit", (e) => {
       e.preventDefault();
 
-      // Basic required check
+      let valid = true;
       const required = $$("[required]", form);
-      let ok = true;
 
-      required.forEach((el) => {
-        if (!el.value || !String(el.value).trim()) ok = false;
+      required.forEach(field => {
+        if (!field.value.trim()) valid = false;
       });
 
-      // Email validation if present
       const email = $("input[type='email']", form);
       if (email && email.value) {
-        const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim());
-        if (!valid) ok = false;
+        const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim());
+        if (!ok) valid = false;
       }
 
-      // Show message
-      const existing = $(".form-success", form);
+      // Remove old message
+      const existing = $(".form-message", form);
       if (existing) existing.remove();
 
-      const msg = document.createElement("div");
-      msg.className = "form-success";
+      const message = document.createElement("div");
+      message.className = "form-message";
 
-      if (ok) {
-        msg.innerHTML =
-          "<strong>Thanks!</strong> This demo form doesn’t submit anywhere yet. Wire it to your email/CRM tool when ready.";
+      if (valid) {
+        message.classList.add("success");
+        message.innerHTML =
+          "<strong>Thank you!</strong> This is a demo form. Submissions are not yet connected.";
         form.reset();
       } else {
-        msg.innerHTML =
-          "<strong>Check the form:</strong> please complete required fields (and a valid email if included).";
+        message.classList.add("error");
+        message.innerHTML =
+          "<strong>Please check the form.</strong> Complete all required fields with valid information.";
       }
 
-      form.appendChild(msg);
-      msg.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      form.appendChild(message);
+      message.scrollIntoView({ behavior: "smooth", block: "nearest" });
     });
-  };
+  }
 
   $$("form[data-form]").forEach(wireForm);
+
 })();
