@@ -2,14 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>About | Lonnie Sims for Tulsa County</title>
-  <meta name="description" content="Learn about Lonnie Sims’ background, timeline of public service, and campaign story." />
-  <meta property="og:title" content="About | Lonnie Sims for Tulsa County" />
-  <meta property="og:description" content="Background, timeline, and campaign story." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lonnie Sims for Tulsa County Commissioner | Official Campaign Website</title>
+  <meta name="description" content="Lonnie Sims for Tulsa County Commissioner. Learn about priorities, service record, and how to get involved. Donate securely via Donorbox." />
+  <meta property="og:title" content="Lonnie Sims for Tulsa County Commissioner" />
+  <meta property="og:description" content="Official campaign website. Priorities, record, updates, volunteer, and donate." />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="images/goldenlonnie.jpg" />
-  <link rel="stylesheet" href="css/styles.css" />
+  <meta property="og:image" content="/images/simssign.jpg" />
+  <meta property="og:url" content="/" />
+  <link rel="icon" href="/images/simssign.jpg" />
+  <link rel="stylesheet" href="/css/styles.css" />
 </head>
 
 <body>
@@ -17,7 +19,7 @@
 
   <header class="site-header">
     <div class="container header-inner">
-      <a class="brand" href="index.html" aria-label="Home">
+      <a class="brand" href="/index.html" aria-label="Lonnie Sims for Tulsa County Commissioner">
         <span class="brand-mark" aria-hidden="true"></span>
         <span class="brand-text">
           <span class="brand-title">Lonnie Sims</span>
@@ -25,150 +27,167 @@
         </span>
       </a>
 
-      <nav class="nav" aria-label="Primary">
-        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu">
-          <span class="sr-only">Open menu</span>
+      <nav class="nav" aria-label="Primary navigation">
+        <button class="nav-toggle" aria-label="Open menu" aria-controls="nav-menu" aria-expanded="false">
           <span class="bars" aria-hidden="true"></span>
         </button>
-
         <div id="nav-menu" class="nav-menu">
-          <a class="active" href="about.html">About</a>
-          <a href="issues.html">Issues</a>
-          <a href="record.html">Record</a>
-          <a href="updates.html">Updates</a>
-          <a href="get-involved.html">Get Involved</a>
-          <a class="btn btn-donate" href="donate.html">Donate</a>
+          <a class="active" href="/index.html">Home</a>
+          <a href="/about.html">About</a>
+          <a href="/issues.html">Issues</a>
+          <a href="/record.html">Record</a>
+          <a href="/updates.html">Updates</a>
+          <a href="/get-involved.html">Get Involved</a>
+          <a class="btn btn-primary btn-nav" href="https://donorbox.org/sims-for-county-commissioner-2024" target="_blank" rel="noopener">Donate</a>
         </div>
       </nav>
     </div>
   </header>
 
   <main id="main">
-    <section class="page-hero">
-      <div class="container page-hero-grid">
-        <div>
-          <p class="eyebrow">About</p>
-          <h1>Public Service. Family. Community.</h1>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-bg" aria-hidden="true">
+        <img src="/images/goldenlonnie.jpg" alt="" />
+      </div>
+
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow">Official campaign website</div>
+          <h1>Lonnie Sims for Tulsa County Commissioner</h1>
           <p class="lead">
-            This page summarizes Lonnie Sims’ background using cited sources. Personal/family details appear only as presented in campaign materials.
+            Learn about campaign priorities, public service, and how to get involved.
+            Donate securely via Donorbox.
           </p>
 
+          <div class="hero-cta">
+            <a class="btn btn-primary" href="https://donorbox.org/sims-for-county-commissioner-2024" target="_blank" rel="noopener">Donate</a>
+            <a class="btn btn-secondary" href="/get-involved.html">Volunteer / Yard Sign</a>
+            <a class="btn btn-ghost" href="/issues.html">See priorities</a>
+          </div>
+
           <div class="mini-disclaimer">
-            Authorized and paid for by <strong>Sims for County Commissioner 2024</strong>, <strong>[STREET ADDRESS]</strong>, <strong>(918) 640-5402</strong>.
+            <strong>Required campaign disclaimer:</strong>
+            Authorized and paid for by [COMMITTEE NAME], [PERMANENT STREET ADDRESS], [PHONE].
+          </div>
+
+          <div class="signup-card">
+            <h2 class="h3">Get campaign updates</h2>
+            <p class="muted small">Sign up for email updates (minimal info only).</p>
+            <form class="form-inline" data-form>
+              <label class="sr-only" for="email">Email</label>
+              <input id="email" name="email" type="email" autocomplete="email" placeholder="Email address" required />
+              <label class="sr-only" for="zip">ZIP</label>
+              <input id="zip" name="zip" type="text" inputmode="numeric" autocomplete="postal-code" placeholder="ZIP" required />
+              <button class="btn btn-secondary" type="submit">Join</button>
+              <p class="form-note">
+                By submitting, you agree to the <a href="#" data-open="terms">Terms</a> and <a href="#" data-open="privacy">Privacy Policy</a>.
+              </p>
+            </form>
           </div>
         </div>
 
-        <figure class="page-hero-figure">
-          <img src="images/goldenlonnie.jpg" alt="Lonnie Sims campaign photo" />
+        <figure class="hero-figure">
+          <img src="/images/lonnie.jpg" alt="Lonnie Sims campaign headshot." />
+          <figcaption class="caption">Campaign photo used for communications.</figcaption>
         </figure>
       </div>
     </section>
 
+    <!-- PRIORITIES -->
     <section class="section">
-      <div class="container split">
-        <div>
-          <h2>At a Glance</h2>
-          <div class="facts">
-            <div class="fact">
-              <div class="fact-k">Current</div>
-              <div class="fact-v">Tulsa County Commissioner, District 2 (assumed office Jan 1, 2025)</div>
-            </div>
-            <div class="fact">
-              <div class="fact-k">Previously</div>
-              <div class="fact-v">Oklahoma House District 68 (Nov 2018 – Nov 2024); Mayor of Jenks (2013–2015)</div>
-            </div>
-            <div class="fact">
-              <div class="fact-k">Party</div>
-              <div class="fact-v">Republican (as listed by sources)</div>
-            </div>
-          </div>
-
-          <div class="callout">
-            <h3 class="h4">Campaign note</h3>
-            <p class="muted">
-              This is a campaign website and not an official county website.
-            </p>
-          </div>
+      <div class="container">
+        <div class="section-head">
+          <h2>Campaign priorities</h2>
+          <p class="muted">
+            The items below are presented as campaign priorities unless specifically noted as part of a documented record.
+          </p>
         </div>
 
-        <figure class="split-figure">
-          <img src="images/houselonnie.jpg" alt="Lonnie Sims at the Oklahoma State Capitol (historical service photo)" />
-          <figcaption class="caption">Historical service photo (Oklahoma House period).</figcaption>
-        </figure>
+        <div class="cards cards-3">
+          <article class="card">
+            <div class="card-media">
+              <img src="/images/viclonnie.jpg" alt="Lonnie Sims at a public event." />
+              <span class="badge">Priority</span>
+            </div>
+            <h3>Public safety</h3>
+            <p class="muted">Support for safe communities and effective public safety resources as a priority.</p>
+            <p class="small muted"><em>Photo from a public event; not an endorsement.</em></p>
+          </article>
+
+          <article class="card">
+            <div class="card-media">
+              <img src="/images/simssign.jpg" alt="Lonnie Sims campaign yard sign." />
+              <span class="badge">Priority</span>
+            </div>
+            <h3>Infrastructure & preparedness</h3>
+            <p class="muted">Focus on roads, bridges, and practical long-term planning for Tulsa County.</p>
+          </article>
+
+          <article class="card">
+            <div class="card-media">
+              <img src="/images/goldenlonnie.jpg" alt="Lonnie Sims with community members." />
+              <span class="badge">Priority</span>
+            </div>
+            <h3>Good government</h3>
+            <p class="muted">Accountability, service delivery, and responsible stewardship of public resources.</p>
+          </article>
+        </div>
       </div>
     </section>
 
+    <!-- QUICK ACTIONS -->
     <section class="section section-muted">
       <div class="container">
         <div class="section-head">
-          <h2>Timeline</h2>
-          <p class="muted">Dates shown as stated in cited sources.</p>
+          <h2>Quick actions</h2>
+          <p class="muted">Choose how you want to help today.</p>
         </div>
 
-        <div class="timeline timeline-wide">
-          <div class="t-item">
-            <div class="t-dot" aria-hidden="true"></div>
-            <div class="t-content">
-              <div class="t-title">Tulsa County Commissioner, District 2</div>
-              <div class="t-meta">Assumed office Jan 1, 2025 (current)</div>
-              <div class="t-body muted">Elected in 2024 and assumed office in 2025.</div>
-            </div>
-          </div>
+        <div class="actions">
+          <a class="action" href="/get-involved.html">
+            <span class="action-title">Request a yard sign</span>
+            <span class="action-desc">Fill out the form — delivery arranged by the campaign.</span>
+          </a>
+          <a class="action" href="/get-involved.html#volunteer">
+            <span class="action-title">Volunteer</span>
+            <span class="action-desc">Door knocking, phones, events, and more.</span>
+          </a>
+          <a class="action" href="https://donorbox.org/sims-for-county-commissioner-2024" target="_blank" rel="noopener">
+            <span class="action-title">Donate</span>
+            <span class="action-desc">Secure donation processing via Donorbox.</span>
+          </a>
+          <a class="action" href="/updates.html">
+            <span class="action-title">Follow updates</span>
+            <span class="action-desc">Campaign channels and recent posts.</span>
+          </a>
+        </div>
 
-          <div class="t-item">
-            <div class="t-dot" aria-hidden="true"></div>
-            <div class="t-content">
-              <div class="t-title">Oklahoma House of Representatives, District 68</div>
-              <div class="t-meta">Nov 2018 – Nov 2024</div>
-              <div class="t-body muted">Served as a state representative for District 68 as documented by official and third-party sources.</div>
-            </div>
-          </div>
-
-          <div class="t-item">
-            <div class="t-dot" aria-hidden="true"></div>
-            <div class="t-content">
-              <div class="t-title">Mayor of Jenks</div>
-              <div class="t-meta">2013 – 2015</div>
-              <div class="t-body muted">Local leadership in Jenks prior to state service.</div>
-            </div>
-          </div>
+        <div class="mini-disclaimer">
+          <strong>Required campaign disclaimer:</strong>
+          Authorized and paid for by [COMMITTEE NAME], [PERMANENT STREET ADDRESS], [PHONE].
         </div>
       </div>
     </section>
 
+    <!-- SOURCES -->
     <section class="section">
-      <div class="container split">
-        <figure class="split-figure">
-          <img src="images/leannlonnie.jpg" alt="Lonnie Sims with Lea Ann (campaign photo)" />
-          <figcaption class="caption">Campaign photo. Not an endorsement by any organization shown.</figcaption>
-        </figure>
-
-        <div>
-          <h2>Family & Community (as presented by the campaign)</h2>
-          <p class="muted">
-            Campaign materials describe Lonnie and Lea Ann as married for more than 24 years and parents of Laney Sims. The campaign also describes involvement with organizations and boards (see sources).
-          </p>
-
-          <div class="callout">
-            <h3 class="h4">Accuracy note</h3>
-            <p class="muted">
-              Personal details on this page are included only where explicitly stated in campaign materials, and should not be interpreted as endorsements.
-            </p>
-          </div>
-
-          <a class="btn btn-ghost" href="issues.html">See the issues →</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="section section-muted">
       <div class="container">
-        <h2 class="h3">Sources</h2>
+        <h2>Sources</h2>
+        <p class="muted small">
+          This site’s factual statements are compiled from the sources below. Where campaign messaging is included, it is labeled as a campaign priority.
+        </p>
         <ul class="sources">
-          <li><a href="https://www.lonniesims.org/" target="_blank" rel="noopener">Official campaign site reference</a></li>
-          <li><a href="https://en.wikipedia.org/wiki/Lonnie_Sims" target="_blank" rel="noopener">Wikipedia</a></li>
-          <li><a href="https://ballotpedia.org/Lonnie_Sims" target="_blank" rel="noopener">Ballotpedia</a></li>
+          <li><a href="https://www2.tulsacounty.org/government/elected-officials/lonnie-sims/" target="_blank" rel="noopener">Tulsa County elected officials page</a></li>
+          <li><a href="https://www2.tulsacounty.org/government/board-of-county-commissioners/" target="_blank" rel="noopener">Tulsa County Board of County Commissioners</a></li>
           <li><a href="https://www.okhouse.gov/representatives/lonnie-sims" target="_blank" rel="noopener">Oklahoma House profile (historical)</a></li>
+          <li><a href="https://ballotpedia.org/Lonnie_Sims" target="_blank" rel="noopener">Ballotpedia</a></li>
+          <li><a href="https://justfacts.votesmart.org/candidate/key-votes/182007/lonnie-sims" target="_blank" rel="noopener">Vote Smart key votes</a></li>
+          <li><a href="https://en.wikipedia.org/wiki/Lonnie_Sims" target="_blank" rel="noopener">Wikipedia</a></li>
+          <li><a href="https://www.lonniesims.org/" target="_blank" rel="noopener">Campaign site reference</a></li>
+          <li><a href="https://www.instagram.com/glonniesims/" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="https://www.facebook.com/TulsaCountyDistrict2/" target="_blank" rel="noopener">Facebook (District 2)</a></li>
+          <li><a href="https://x.com/TulsaCounty/status/2014892697987825680" target="_blank" rel="noopener">X/Twitter post reference</a></li>
         </ul>
         <p class="muted small">Last updated: <span data-last-updated></span></p>
       </div>
@@ -179,63 +198,65 @@
     <div class="container footer-grid">
       <div>
         <div class="footer-brand">Lonnie Sims for Tulsa County</div>
-        <p class="muted small">Campaign website. Not an official government website.</p>
+        <p class="muted small">
+          This website is for campaign purposes and is not an official Tulsa County government website.
+        </p>
         <p class="small">
-          <strong>Authorized and paid for by Sims for County Commissioner 2024</strong>, <strong>[STREET ADDRESS]</strong>, <strong>(918) 640-5402</strong>.
+          <strong>Authorized and paid for by [COMMITTEE NAME], [PERMANENT STREET ADDRESS], [PHONE].</strong>
         </p>
       </div>
 
-      <div class="footer-links">
-        <a href="about.html">About</a>
-        <a href="issues.html">Issues</a>
-        <a href="record.html">Record</a>
-        <a href="get-involved.html">Get Involved</a>
-        <a href="donate.html">Donate</a>
+      <div class="footer-links" aria-label="Footer links">
+        <a href="/about.html">About</a>
+        <a href="/issues.html">Issues</a>
+        <a href="/record.html">Record</a>
+        <a href="/get-involved.html">Get involved</a>
+        <a href="/donate.html">Donate</a>
+        <a href="/updates.html">Updates</a>
         <a href="#" data-open="privacy">Privacy</a>
         <a href="#" data-open="terms">Terms</a>
       </div>
 
       <div class="footer-contact">
-        <div class="small"><strong>Campaign Contact</strong></div>
-        <div class="small">(918) 640-5402</div>
-        <div class="small"><a href="mailto:sims4commissioner@gmail.com">sims4commissioner@gmail.com</a></div>
+        <p class="muted small">Campaign contact</p>
+        <p class="small muted">[EMAIL PLACEHOLDER]</p>
+        <p class="small muted">[PHONE PLACEHOLDER]</p>
       </div>
     </div>
-
-    <dialog class="modal" id="privacy-modal" aria-labelledby="privacy-title">
-      <div class="modal-inner">
-        <div class="modal-head">
-          <h2 id="privacy-title">Privacy Policy</h2>
-          <button class="icon-btn" type="button" data-close aria-label="Close">×</button>
-        </div>
-        <div class="modal-body">
-          <p><strong>What we collect:</strong> name (optional), email, ZIP, phone (optional), and messages you submit.</p>
-          <p><strong>How we use it:</strong> to respond to requests, send campaign updates (if you opt in), and organize volunteer activity.</p>
-          <p><strong>Sharing:</strong> we do not sell personal information. We may share limited data with service providers that help operate this website.</p>
-          <p><strong>Cookies/analytics:</strong> if enabled, we use them to understand site usage. You can block cookies in your browser.</p>
-          <p><strong>Retention:</strong> we keep information as long as needed for campaign operations or legal compliance.</p>
-          <p class="small muted">Questions: <a href="mailto:sims4commissioner@gmail.com">sims4commissioner@gmail.com</a></p>
-        </div>
-      </div>
-    </dialog>
-
-    <dialog class="modal" id="terms-modal" aria-labelledby="terms-title">
-      <div class="modal-inner">
-        <div class="modal-head">
-          <h2 id="terms-title">Terms</h2>
-          <button class="icon-btn" type="button" data-close aria-label="Close">×</button>
-        </div>
-        <div class="modal-body">
-          <p>This website is provided for campaign purposes. Information is presented in good faith using cited sources and campaign materials.</p>
-          <p><strong>No legal advice:</strong> nothing on this site is legal advice.</p>
-          <p><strong>User submissions:</strong> you agree not to submit unlawful, defamatory, or abusive content via forms.</p>
-          <p><strong>External links:</strong> we may link to third-party sites (e.g., donation processor). Their policies apply.</p>
-          <p class="small muted">Last updated: <span data-last-updated></span></p>
-        </div>
-      </div>
-    </dialog>
   </footer>
 
-  <script src="js/main.js"></script>
+  <!-- Privacy Modal -->
+  <dialog id="privacy-modal" class="modal" aria-label="Privacy Policy">
+    <div class="modal-inner">
+      <div class="modal-head">
+        <h2 class="h3">Privacy Policy</h2>
+        <button class="icon-btn" data-close aria-label="Close privacy policy">×</button>
+      </div>
+      <div class="modal-body">
+        <p class="muted">
+          We collect minimal information you provide (name, email, ZIP; phone optional) to send campaign updates and respond to requests.
+          We do not sell your data. If analytics or cookies are used, this policy will describe them; otherwise none are used.
+        </p>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Terms Modal -->
+  <dialog id="terms-modal" class="modal" aria-label="Terms of Use">
+    <div class="modal-inner">
+      <div class="modal-head">
+        <h2 class="h3">Terms</h2>
+        <button class="icon-btn" data-close aria-label="Close terms">×</button>
+      </div>
+      <div class="modal-body">
+        <p class="muted">
+          This website is provided for campaign communications. External links (including Donorbox) are provided for convenience.
+          By using this site, you agree not to misuse forms or submit false information.
+        </p>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="/js/main.js"></script>
 </body>
 </html>
