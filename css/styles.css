@@ -1,6 +1,13 @@
 /* === css/styles.css ===
-   Lonnie Sims Campaign Site — Light Theme Design System
-   Works with existing HTML class structure (no markup changes required)
+   Lonnie Sims Campaign Site — Light Theme Design System (v2)
+   Goals:
+   - Consistent spacing, typography, and components across all pages
+   - Fix “hero → footer only” issue (NO :has() hiding rules)
+   - Sources readable everywhere (you can hide via HTML if desired, but CSS will not nuke sections)
+   - Standardized media frames (landscape + portrait) without distorting layouts
+   - Better-looking issue CTA buttons + “Join Team Sims” + tighter page-hero spacing
+   - Priority “bubble” looks intentional (no giant weird pill)
+   - Per-image overrides supported via optional classes (see notes at bottom)
 */
 
 /* =========================
@@ -18,14 +25,14 @@
   --surface-2: #F1F3F8;
   --ink: #0B1220;
   --text: rgba(11,18,32,0.92);
-  --muted: rgba(11,18,32,0.72);
-  --muted2: rgba(11,18,32,0.60);
+  --muted: rgba(11,18,32,0.70);
+  --muted-2: rgba(11,18,32,0.58);
 
   /* Borders / shadows */
   --border: rgba(11,18,32,0.12);
   --border-strong: rgba(11,18,32,0.18);
   --shadow-sm: 0 6px 18px rgba(11,18,32,0.08);
-  --shadow-md: 0 12px 34px rgba(11,18,32,0.12);
+  --shadow-md: 0 14px 36px rgba(11,18,32,0.12);
 
   /* Radii */
   --r-sm: 12px;
@@ -51,6 +58,18 @@
 
   /* Focus */
   --focusRing: 0 0 0 4px rgba(29,59,209,0.18);
+
+  /* Page hero spacing controls */
+  --page-hero-pad-top: 2.25rem;
+  --page-hero-pad-bottom: 1.15rem;
+
+  /* Media frame controls */
+  --portrait-max: 440px;   /* default portrait max height desktop */
+  --portrait-max-md: 380px;
+  --portrait-max-sm: 320px;
+
+  /* Scroll offset for anchored links (sticky header) */
+  --header-height: 72px;
 }
 
 /* =========================
@@ -58,6 +77,8 @@
 ========================= */
 *{ box-sizing: border-box; }
 html, body{ height: 100%; }
+html{ scroll-behavior: smooth; scroll-padding-top: var(--header-height); }
+
 body{
   margin: 0;
   font-family: var(--font);
@@ -78,11 +99,11 @@ h1,h2,h3{
   color: rgba(11,18,32,0.96);
 }
 h1{
-  font-size: clamp(2.05rem, 3.2vw, 3.05rem);
+  font-size: clamp(2.0rem, 3.1vw, 3.0rem);
   line-height: 1.06;
 }
 h2{
-  font-size: clamp(1.35rem, 2.1vw, 2.05rem);
+  font-size: clamp(1.35rem, 2.0vw, 2.0rem);
   line-height: 1.14;
 }
 h3{
@@ -93,12 +114,24 @@ h3{
 .lead{
   font-size: 1.05rem;
   color: var(--muted);
-  max-width: 60ch;
+  max-width: 62ch;
 }
 .muted{ color: var(--muted); }
 .small{ font-size: 0.92rem; }
 .h3{ font-size: 1.25rem; }
 .h4{ font-size: 1.05rem; margin-bottom: 0.25rem; }
+
+hr{
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: var(--s-6) 0;
+}
+
+:focus-visible{
+  outline: none;
+  box-shadow: var(--focusRing);
+  border-radius: 12px;
+}
 
 .sr-only{
   position: absolute !important;
@@ -107,12 +140,6 @@ h3{
   overflow: hidden; clip: rect(0,0,0,0);
   white-space: nowrap;
   border: 0;
-}
-
-:focus-visible{
-  outline: none;
-  box-shadow: var(--focusRing);
-  border-radius: 12px;
 }
 
 .skip-link{
@@ -129,6 +156,10 @@ h3{
 }
 .skip-link:focus{ left: 1rem; top: 1rem; }
 
+/* Utility helpers */
+.stack{ display: grid; gap: var(--s-4); }
+.center{ display: grid; place-items: center; }
+
 /* =========================
    3) Layout helpers
 ========================= */
@@ -138,7 +169,7 @@ h3{
 }
 
 .section{
-  padding: clamp(2.5rem, 4vw, 4.5rem) 0;
+  padding: clamp(2.25rem, 3.6vw, 4.25rem) 0;
 }
 
 .section-muted{
@@ -152,8 +183,15 @@ h3{
   gap: var(--s-2);
   margin-bottom: var(--s-5);
 }
-
 .section-head p{ margin: 0; }
+
+/* Common surface card */
+.surface{
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.92);
+  box-shadow: var(--shadow-sm);
+}
 
 /* =========================
    4) Header / Nav
@@ -173,6 +211,7 @@ h3{
   justify-content: space-between;
   padding: var(--s-3) 0;
   gap: var(--s-4);
+  min-height: var(--header-height);
 }
 
 .brand{
@@ -261,7 +300,7 @@ h3{
   padding: .72rem 1.05rem;
   border-radius: 999px;
   border: 1px solid var(--border);
-  background: rgba(255,255,255,0.9);
+  background: rgba(255,255,255,0.92);
   color: rgba(11,18,32,0.92);
   text-decoration: none;
   font-weight: 780;
@@ -291,18 +330,36 @@ h3{
 .btn-secondary:hover{ filter: brightness(1.03); }
 
 .btn-ghost{
-  background: rgba(255,255,255,0.65);
+  background: rgba(255,255,255,0.70);
   box-shadow: none;
 }
-.btn-ghost:hover{ background: rgba(255,255,255,0.9); }
+.btn-ghost:hover{ background: rgba(255,255,255,0.92); }
 
-.btn-nav{
-  padding: .55rem .9rem;
+.btn-nav{ padding: .55rem .9rem; }
+
+/* CTA “floating bar” buttons (Issues page bottom-left in your screenshot) */
+.cta-float,
+.floating-cta,
+.issue-cta,
+.sticky-cta{
+  display: flex;
+  gap: var(--s-3);
+  align-items: center;
+}
+
+/* Improve any fixed CTA containers if they exist */
+.cta-float .btn,
+.floating-cta .btn,
+.issue-cta .btn,
+.sticky-cta .btn{
+  box-shadow: 0 12px 30px rgba(11,18,32,0.14);
+  border-color: rgba(11,18,32,0.12);
 }
 
 /* =========================
    6) Media frames (standardized images)
 ========================= */
+/* Base media frame style (applies to all figure-like image containers) */
 .card-media,
 .issue-figure,
 .hero-figure,
@@ -311,7 +368,7 @@ h3{
 .soft-figure{
   border-radius: var(--r-lg);
   border: 1px solid var(--border);
-  background: rgba(255,255,255,0.85);
+  background: rgba(255,255,255,0.90);
   overflow: hidden;
   box-shadow: var(--shadow-sm);
 }
@@ -328,15 +385,16 @@ h3{
 .page-hero-figure,
 .split-figure{
   aspect-ratio: 4 / 5;
-  max-height: 420px;
+  max-height: var(--portrait-max);
 }
 
-/* Softer supporting figure (still consistent) */
+/* Supporting figure (wide) */
 .soft-figure{
   aspect-ratio: 16 / 9;
-  max-height: 340px;
+  max-height: 360px;
 }
 
+/* Make sure images always fill the frame intentionally */
 .card-media img,
 .issue-figure img,
 .hero-figure img,
@@ -349,7 +407,7 @@ h3{
   object-position: center 30%;
 }
 
-/* Badge overlay */
+/* Badge / “Priority” overlay (for home cards) */
 .badge{
   position: absolute;
   left: var(--s-3);
@@ -363,6 +421,28 @@ h3{
   backdrop-filter: blur(6px);
 }
 
+/* “Priority bubble” pills used on Issues cards (fix weird giant look) */
+.issue-tag{
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  padding: .28rem .62rem;
+  border-radius: 999px;
+  border: 1px solid rgba(29,59,209,0.18);
+  background: rgba(29,59,209,0.06);
+  font-size: .82rem;
+  color: rgba(11,18,32,0.78);
+  width: fit-content;
+  line-height: 1.2;
+}
+
+/* If your issues page uses a different “priority” class, normalize it too */
+.priority,
+.pill,
+.tag{
+  border-radius: 999px;
+}
+
 /* Caption */
 .caption{
   margin: var(--s-3) var(--s-4) var(--s-4);
@@ -370,12 +450,25 @@ h3{
   font-size: .92rem;
 }
 
+/* Optional per-image tuning via classes you can add to the *container*:
+   - .pos-center, .pos-top, .pos-hero, .pos-natural
+   - .portrait-tall (for leannlonnie.jpg style) */
+.pos-center img{ object-position: center center; }
+.pos-top img{ object-position: center 15%; }
+.pos-hero img{ object-position: center 22%; }
+.pos-natural img{ object-position: center 45%; } /* less “zoomed” feel for some images */
+
+.portrait-tall{
+  max-height: 520px;              /* makes portrait bigger vertically */
+  aspect-ratio: 4 / 5;
+}
+
 /* =========================
-   7) Hero
+   7) Hero (home)
 ========================= */
 .hero{
   position: relative;
-  padding: clamp(2.5rem, 4vw, 4.5rem) 0;
+  padding: clamp(2.25rem, 3.8vw, 4.25rem) 0;
   border-bottom: 1px solid var(--border);
   overflow: hidden;
 }
@@ -413,6 +506,8 @@ h3{
   margin-bottom: var(--s-3);
 }
 
+.hero-copy .lead{ margin-bottom: var(--s-4); }
+
 .hero-cta{
   display: flex;
   gap: var(--s-3);
@@ -421,7 +516,31 @@ h3{
 }
 
 /* =========================
-   8) Disclaimers
+   8) Page hero (about/issues/record/updates/get-involved)
+   Tighten “too much space” and make headings feel stronger
+========================= */
+.page-hero{
+  padding: var(--page-hero-pad-top) 0 var(--page-hero-pad-bottom);
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(180deg, rgba(29,59,209,0.06), rgba(225,6,21,0.04));
+}
+
+.page-hero-grid{
+  display: grid;
+  grid-template-columns: 1.2fr .8fr;
+  gap: var(--s-6);
+  align-items: start;
+}
+
+.page-hero h1{
+  margin-bottom: var(--s-2);
+}
+.page-hero p{
+  margin-bottom: var(--s-3);
+}
+
+/* =========================
+   9) Disclaimers
 ========================= */
 .mini-disclaimer{
   margin-top: var(--s-4);
@@ -433,7 +552,7 @@ h3{
 }
 
 /* =========================
-   9) Signup / forms
+   10) Signup / forms
 ========================= */
 .signup-card{
   margin-top: var(--s-5);
@@ -455,7 +574,7 @@ h3{
 .form-note{
   grid-column: 1 / -1;
   margin: var(--s-2) 0 0;
-  color: var(--muted2);
+  color: var(--muted-2);
   font-size: .9rem;
 }
 .form-note a{
@@ -501,8 +620,16 @@ textarea{ resize: vertical; min-height: 120px; }
   gap: var(--s-4);
 }
 
+/* Improve big submit buttons inside forms (Get Involved page) */
+form .btn,
+form button.btn,
+form button[type="submit"],
+form input[type="submit"]{
+  min-height: 44px;
+}
+
 /* =========================
-   10) Cards / grids
+   11) Cards / grids
 ========================= */
 .cards{
   display: grid;
@@ -520,12 +647,10 @@ textarea{ resize: vertical; min-height: 120px; }
 
 .card h3{ margin-top: var(--s-4); }
 
-.card-media{
-  margin-bottom: var(--s-4);
-}
+.card-media{ margin-bottom: var(--s-4); }
 
 /* =========================
-   11) Quick actions
+   12) Quick actions
 ========================= */
 .actions{
   display: grid;
@@ -561,30 +686,17 @@ textarea{ resize: vertical; min-height: 120px; }
 .action-desc{ color: var(--muted); }
 
 /* =========================
-   12) Split / page hero
+   13) Split blocks (about/record/updates)
 ========================= */
-.page-hero{
-  padding: 2.6rem 0 1.25rem;
-  border-bottom: 1px solid var(--border);
-  background: linear-gradient(180deg, rgba(29,59,209,0.06), rgba(225,6,21,0.04));
-}
-
-.page-hero-grid{
-  display: grid;
-  grid-template-columns: 1.2fr .8fr;
-  gap: var(--s-5);
-  align-items: start;
-}
-
 .split{
   display: grid;
   grid-template-columns: 1.1fr .9fr;
-  gap: var(--s-5);
+  gap: var(--s-6);
   align-items: start;
 }
 
 /* =========================
-   13) Timeline
+   14) Timeline
 ========================= */
 .timeline{
   margin-top: var(--s-5);
@@ -609,11 +721,11 @@ textarea{ resize: vertical; min-height: 120px; }
 }
 
 .t-title{ font-weight: 860; }
-.t-meta{ color: var(--muted2); font-size: .92rem; }
+.t-meta{ color: var(--muted-2); font-size: .92rem; }
 .t-body{ margin-top: var(--s-2); }
 
 /* =========================
-   14) Callouts / mini boxes / facts
+   15) Callouts / mini boxes / facts
 ========================= */
 .callout{
   margin-top: var(--s-5);
@@ -651,7 +763,7 @@ textarea{ resize: vertical; min-height: 120px; }
   font-size: .82rem;
   letter-spacing: .12em;
   text-transform: uppercase;
-  color: var(--muted2);
+  color: var(--muted-2);
 }
 
 .fact-v{
@@ -661,7 +773,7 @@ textarea{ resize: vertical; min-height: 120px; }
 }
 
 /* =========================
-   15) Issues
+   16) Issues
 ========================= */
 .issue-grid{
   display: grid;
@@ -678,23 +790,23 @@ textarea{ resize: vertical; min-height: 120px; }
   box-shadow: var(--shadow-sm);
   display: grid;
   gap: var(--s-3);
+  align-content: start;
 }
 
-.issue-tag{
-  display: inline-block;
-  padding: .25rem .6rem;
-  border-radius: 999px;
-  border: 1px solid rgba(29,59,209,0.18);
-  background: rgba(29,59,209,0.06);
-  font-size: .82rem;
-  color: rgba(11,18,32,0.78);
-  width: fit-content;
-}
+.issue h3{ margin-bottom: var(--s-2); }
 
 .issue-figure{ margin-top: var(--s-3); }
 
+/* If any issue cards have images ABOVE text and get too tall, this prevents ballooning */
+.issue-figure{
+  max-height: 260px;
+}
+.issue-figure img{
+  object-position: center 25%;
+}
+
 /* =========================
-   16) Donate / compliance blocks
+   17) Donate / compliance blocks
 ========================= */
 .donate-box{
   border-radius: var(--r-lg);
@@ -725,27 +837,31 @@ textarea{ resize: vertical; min-height: 120px; }
 }
 
 /* =========================
-   17) Sources (READABLE FIX)
+   18) Sources (READABLE — no auto-hiding!)
 ========================= */
 .sources{
   margin: var(--s-4) 0 0;
   padding-left: 1.15rem;
-  color: rgba(11,18,32,0.88);
+  color: rgba(11,18,32,0.90);
 }
-
 .sources li{ margin: .45rem 0; }
-
 .sources a{
   color: var(--blue);
   text-decoration: underline;
   text-underline-offset: 3px;
 }
-.sources a:hover{
-  color: rgba(29,59,209,0.85);
-}
+.sources a:hover{ color: rgba(29,59,209,0.85); }
+
+/* NOTE:
+   If you ONLY want Sources on the home page, do NOT use :has().
+   Instead: add class="sources-section" on the Sources <section> in HTML,
+   then add THIS rule:
+     body:not(.page-home) .sources-section{ display:none; }
+   (You’ll also add <body class="page-home"> to home only.)
+*/
 
 /* =========================
-   18) Footer
+   19) Footer
 ========================= */
 .site-footer{
   border-top: 1px solid var(--border);
@@ -788,7 +904,7 @@ textarea{ resize: vertical; min-height: 120px; }
 }
 
 /* =========================
-   19) Modal
+   20) Modal
 ========================= */
 .modal{
   width: min(720px, calc(100% - 2rem));
@@ -799,9 +915,7 @@ textarea{ resize: vertical; min-height: 120px; }
   box-shadow: var(--shadow-md);
 }
 
-.modal::backdrop{
-  background: rgba(11,18,32,0.55);
-}
+.modal::backdrop{ background: rgba(11,18,32,0.55); }
 
 .modal-inner{ padding: var(--s-5); }
 
@@ -814,9 +928,7 @@ textarea{ resize: vertical; min-height: 120px; }
   border-bottom: 1px solid var(--border);
 }
 
-.modal-body{
-  padding-top: var(--s-4);
-}
+.modal-body{ padding-top: var(--s-4); }
 
 .icon-btn{
   border: 1px solid var(--border);
@@ -833,7 +945,7 @@ textarea{ resize: vertical; min-height: 120px; }
 .icon-btn:active{ transform: translateY(1px); }
 
 /* =========================
-   20) Responsive
+   21) Responsive
 ========================= */
 @media (max-width: 960px){
   .hero-grid,
@@ -850,7 +962,13 @@ textarea{ resize: vertical; min-height: 120px; }
   .hero-figure,
   .page-hero-figure,
   .split-figure{
-    max-height: 380px;
+    max-height: var(--portrait-max-md);
+  }
+
+  /* tighten page hero on smaller screens */
+  :root{
+    --page-hero-pad-top: 1.85rem;
+    --page-hero-pad-bottom: 1.0rem;
   }
 }
 
@@ -897,206 +1015,13 @@ textarea{ resize: vertical; min-height: 120px; }
   .hero-figure,
   .page-hero-figure,
   .split-figure{
-    max-height: 340px;
-  }
-}
-/* =========================================
-   OVERRIDES PATCH — spacing + images + CTAs
-   Paste at bottom of css/styles.css
-========================================= */
-
-/* 1) SOURCES/RESOURCES — only on Home */
-body:not(.page-home) .sources,
-body:not(.page-home) section:has(.sources) {
-  display: none;
-}
-
-/* If :has() is not supported in your browser target, the first rule still hides the list.
-   The :has() rule hides the whole section wrapper if your Sources section is a <section>. */
-
-/* 2) PAGE HERO / HEADLINE SPACING — tighten “too much space” */
-.hero,
-.page-hero {
-  padding: clamp(1.6rem, 2.6vw, 3.0rem) 0 !important;
-}
-
-.hero-grid,
-.page-hero-grid {
-  align-items: center;
-}
-
-.hero .mini-disclaimer,
-.page-hero .mini-disclaimer {
-  margin-top: var(--s-3);
-}
-
-.hero .lead,
-.page-hero .lead {
-  margin-bottom: var(--s-3);
-}
-
-.section-head {
-  margin-bottom: var(--s-4);
-}
-
-/* Slightly stronger page headings without feeling huge */
-.page-hero h1,
-.hero h1 {
-  letter-spacing: -0.03em;
-}
-
-/* 3) HERO / PORTRAIT FIGURES — reduce letterbox + stronger presence */
-.hero-figure,
-.page-hero-figure,
-.split-figure {
-  max-height: 520px; /* was 420 */
-}
-
-@media (max-width: 960px){
-  .hero-figure,
-  .page-hero-figure,
-  .split-figure { max-height: 420px; }
-}
-@media (max-width: 820px){
-  .hero-figure,
-  .page-hero-figure,
-  .split-figure { max-height: 360px; }
-}
-
-/* 4) LEANNLONNIE — bigger vertically in the Family & community split
-   Best: add class img-pos-taller to that <img>.
-   Fallback: target the filename. */
-.img-pos-taller,
-img[src*="leannlonnie.jpg"] {
-  object-position: center 20% !important;
-}
-
-/* If that image sits in a landscape frame and you want it taller,
-   make that specific figure portrait-ish without changing global rules. */
-.page-about .split-figure,
-.page-about .soft-figure {
-  /* keep consistent but slightly taller on About page sections */
-  max-height: 460px;
-}
-
-/* 5) GOLDENLONNIE — make “Community partnership” less zoomed
-   Best: add class img-pos-natural to the <img>.
-   Fallback: target filename. */
-.img-pos-natural,
-img[src*="goldenlonnie.jpg"] {
-  object-position: center 45% !important; /* lowers crop so face isn’t huge */
-}
-
-/* If it still feels too “in your face”, slightly reduce visual dominance on Issues page */
-.page-issues img[src*="goldenlonnie.jpg"] {
-  transform: scale(0.98);
-}
-
-/* 6) PRIORITY “bubble” — make it a clean tag (fix Backing the Blue)
-   You likely have .issue-tag or a badge-like element in issues cards.
-   This makes it consistent and not like a weird empty bubble. */
-.issue-tag,
-.issue .badge {
-  display: inline-flex;
-  align-items: center;
-  gap: .4rem;
-  padding: .28rem .6rem;
-  border-radius: 999px;
-  font-weight: 800;
-  font-size: .78rem;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-}
-
-/* If you have an empty circular “Priority” bubble somewhere, this neutralizes it */
-.issue .issue-tag:empty,
-.issue .badge:empty {
-  display: none;
-}
-
-/* If the “Priority” appears as a standalone pill above Backing the Blue text,
-   give it a better look */
-.issue-tag {
-  border: 1px solid rgba(29,59,209,0.22);
-  background: rgba(29,59,209,0.08);
-  color: rgba(11,18,32,0.82);
-}
-
-/* 7) ISSUES PAGE — bottom floating CTAs (“Volunteer/Yard Sign” + “Donate”)
-   These often look like random blobs if they’re position:fixed.
-   This styles ANY fixed “btn” stack to look intentional without HTML changes. */
-.page-issues .btn {
-  font-weight: 820;
-}
-
-/* If your fixed buttons are wrapped in a container (common), make it nicer */
-.page-issues .floating-cta,
-.page-issues .sticky-cta,
-.page-issues .cta-float {
-  position: fixed;
-  left: 18px;
-  bottom: 18px;
-  display: flex;
-  gap: 10px;
-  z-index: 50;
-  padding: 10px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.88);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow-md);
-  backdrop-filter: blur(10px);
-}
-
-/* If there is NO wrapper and buttons are fixed individually,
-   this still improves their readability and feel */
-.page-issues a.btn,
-.page-issues button.btn {
-  box-shadow: 0 14px 32px rgba(11,18,32,0.14);
-}
-
-/* Mobile: prevent fixed CTAs from covering content */
-@media (max-width: 820px){
-  .page-issues .floating-cta,
-  .page-issues .sticky-cta,
-  .page-issues .cta-float {
-    left: 12px;
-    right: 12px;
-    bottom: 12px;
-    justify-content: space-between;
-  }
-  .page-issues .floating-cta .btn,
-  .page-issues .sticky-cta .btn,
-  .page-issues .cta-float .btn {
-    flex: 1;
+    max-height: var(--portrait-max-sm);
   }
 }
 
-/* 8) GET INVOLVED — “Join Team Sims” / form submit buttons look better */
-.page-get-involved .btn,
-.page-get-involved button[type="submit"] {
-  padding: .82rem 1.15rem;
-  border-radius: 999px;
-  font-weight: 860;
-}
-
-/* Make submit buttons feel less “flat” */
-.page-get-involved button[type="submit"]{
-  border-color: rgba(11,18,32,0.10);
-  box-shadow: 0 14px 34px rgba(11,18,32,0.14);
-}
-
-/* 9) Make “Sources” links always readable when they DO show (home only) */
-.page-home .sources {
-  color: rgba(11,18,32,0.90);
-}
-.page-home .sources a {
-  color: var(--blue);
-}
-.page-home .sources a:hover {
-  color: rgba(29,59,209,0.82);
-}
-
-/* 10) Reduce “big empty gaps” under hero blocks on interior pages */
-.page-hero + .section {
-  padding-top: clamp(1.6rem, 3vw, 2.6rem);
-}
+/* =========================
+   22) Optional tiny HTML add-ons (no breakage if unused)
+   (You can add these classes where needed for per-image tuning)
+   - Make leannlonnie.jpg taller: add class="split-figure portrait-tall pos-hero"
+   - Make goldenlonnie.jpg less zoomed: add class="issue-figure pos-natural"
+========================= */
