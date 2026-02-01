@@ -1017,3 +1017,100 @@ input:focus, select:focus, textarea:focus{
   opacity: 0.10;
   filter: saturate(1.02) contrast(1.02);
 }
+/* ================================
+   IMAGE FORMAT FIX PATCH (PASTE AT END)
+   - Standardizes frames across site
+   - Prevents tall image blowups on Issues
+   - Eliminates letterboxed "tiny image in big box"
+================================ */
+
+/* 1) Global: images should never distort */
+.card-media img,
+.issue-figure img,
+.hero-figure img,
+.page-hero-figure img,
+.split-figure img,
+.soft-figure img{
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;              /* key: remove letterboxing */
+  object-position: center 30%;    /* slightly higher center; better faces */
+}
+
+/* 2) Base media frame styling (consistent border + rounding) */
+.card-media,
+.issue-figure,
+.hero-figure,
+.page-hero-figure,
+.split-figure,
+.soft-figure{
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.60);
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.10);
+}
+
+/* 3) LANDSCAPE frames (cards + issues) */
+.card-media,
+.issue-figure{
+  aspect-ratio: 16 / 9;
+  max-height: 320px; /* prevents super-tall images in Issues */
+}
+
+/* If you want slightly taller landscape images on wide screens */
+@media (min-width: 1100px){
+  .card-media,
+  .issue-figure{
+    max-height: 360px;
+  }
+}
+
+/* 4) PORTRAIT frames (hero & profile-style images) */
+.hero-figure,
+.page-hero-figure,
+.split-figure,
+.soft-figure{
+  aspect-ratio: 4 / 5;
+  max-height: 440px; /* keeps portraits strong but not huge */
+}
+
+/* 5) OVERRIDE your old fixed heights that fight consistency */
+.card-media img{ height: 100% !important; }
+.issue-figure img{ height: 100% !important; }
+.hero-figure img{ height: 100% !important; }
+.page-hero-figure img{ height: 100% !important; }
+.split-figure img{ height: 100% !important; }
+.soft-figure img{ height: 100% !important; }
+
+/* 6) Issues page: stop the "one card becomes skyscraper" problem */
+.issue{
+  display: grid;
+  gap: .85rem;
+  align-content: start;
+}
+.issue-figure{
+  margin-top: .75rem;
+}
+
+/* 7) Smaller screens: reduce max heights so it stays clean */
+@media (max-width: 960px){
+  .card-media,
+  .issue-figure{
+    max-height: 260px;
+  }
+  .hero-figure,
+  .page-hero-figure,
+  .split-figure,
+  .soft-figure{
+    max-height: 360px;
+  }
+}
+
+@media (max-width: 520px){
+  .card-media,
+  .issue-figure{
+    max-height: 220px;
+  }
+}
